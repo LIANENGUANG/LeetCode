@@ -116,7 +116,7 @@ public:
     }
 };
 
-int main() {
+int main02() {
     ListNode l1(2);
     ListNode l2(5);
     Solution sol;
