@@ -35,6 +35,7 @@ public:
                 left++;
             }
             window.insert(r);
+            // 更新最长子串的长度值
             maxLength = max(maxLength, right - left + 1);
             right++;
         }
@@ -42,7 +43,7 @@ public:
     }
 };
 
-int main() {
+int main03() {
     Solution sol;
     string s = "abcabcbb";
     int len = sol.lengthOfLongestSubstring(s);
