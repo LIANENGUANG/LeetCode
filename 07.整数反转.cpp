@@ -19,7 +19,7 @@ public:
     }
 };
 
-int main() {
+int main07() {
     int a = -123;
     Solution sol;
     cout << sol.reverse(a) << endl;
