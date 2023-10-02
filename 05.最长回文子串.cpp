@@ -51,7 +51,7 @@ public:
 
 };
 
-int main(){
+int main05(){
     Solution sol;
     string str = "ababaaaab";
     cout << sol.longestPalindrome(str);
