@@ -22,7 +22,7 @@ public:
 
         for (char c: s) {
             rows[curRow] += c;
-            // 判断是否到了转向的位置
+            // 判断是否到了转向的位置，在上下边界需要进行转向的操作，开始时默认向下移动
             if (curRow == 0 || curRow == numRows - 1) goingDown = !goingDown;
             curRow += goingDown ? 1 : -1;
         }

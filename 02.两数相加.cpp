@@ -49,8 +49,6 @@
 //简单来说，l1和l2用于读取输入链表的值，而cur用于构建和更新结果链表。
 //当执行cur = cur->next;时，你实际上是移动cur指针到结果链表的下一个节点。
 //这确保下次你添加一个新节点时，它将被添加到结果链表的正确位置。
-
-#include <stdio.h>
 #include <iostream>
 
 using namespace std;

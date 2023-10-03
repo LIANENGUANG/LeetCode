@@ -19,19 +19,20 @@ public:
         int start = 0;
         int end = 0;
 
+        // 分别用来判断奇数个字符串以及偶数个字符串，因为二者开始的起始位置不同
         for (int i = 0; i < s.length(); i++) {
             int len1 = expandAroundCenter(s, i, i);
             int len2 = expandAroundCenter(s, i, i + 1);
 
             int len = max(len1, len2);
-//条件判断 if (len > end - start):
-//len 是当前找到的回文子串的长度。end - start 是之前找到的最长回文子串的长度。
-//如果当前找到的回文子串比之前找到的还要长，我们就需要更新start 和 end。
-//计算 start 的位置:i 是当前回文子串的中心位置。
-//对于奇数长度的回文子串，例如 "aba"，中心是 'b'。对于偶数长度的回文子串，例如 "abba"，中心在 'a' 和 'b' 之间。
-//如果回文子串的长度是 len，左半部分的长度是 (len - 1) / 2。所以，回文子串的开始位置就是 i - (len - 1) / 2。
-//计算 end 的位置:
-//同样地，如果回文子串的长度是 len，右半部分的长度是 len / 2。所以，回文子串的结束位置就是 i + len / 2。
+            //条件判断 if (len > end - start):
+            //len 是当前找到的回文子串的长度。end - start 是之前找到的最长回文子串的长度。
+            //如果当前找到的回文子串比之前找到的还要长，我们就需要更新start 和 end。
+            //计算 start 的位置:i 是当前回文子串的中心位置。
+            //对于奇数长度的回文子串，例如 "aba"，中心是 'b'。对于偶数长度的回文子串，例如 "abba"，中心在 'a' 和 'b' 之间。
+            //如果回文子串的长度是 len，左半部分的长度是 (len - 1) / 2。所以，回文子串的开始位置就是 i - (len - 1) / 2。
+            //计算 end 的位置:
+            //同样地，如果回文子串的长度是 len，右半部分的长度是 len / 2。所以，回文子串的结束位置就是 i + len / 2。
             if (len > end - start) {
                 start = i - (len - 1) / 2;
                 end = i + len / 2;
@@ -51,7 +52,7 @@ public:
 
 };
 
-int main05(){
+int main05() {
     Solution sol;
     string str = "ababaaaab";
     cout << sol.longestPalindrome(str);

@@ -3,12 +3,10 @@
 //
 // 这个问题可以使用滑动窗口方法来解决。我们可以使用两个指针来定义一个窗口，并使用一个集合来存储窗口中的字符。
 // 然后，我们移动右指针来扩大窗口，直到遇到重复字符为止。此时，我们移动左指针来缩小窗口。
-#include <stdio.h>
 #include <iostream>
 //unordered_set是C++标准库中的一个容器，它用于存储唯一的元素。
 //它允许在平均常数时间复杂度内进行插入、删除和查找操作。
 #include <unordered_set>
-#include <vector>
 
 using namespace std;
 
@@ -35,7 +33,7 @@ public:
                 left++;
             }
             window.insert(r);
-            // 更新最长子串的长度值
+            // 更新最长子串的长度值,比较当前窗口长度和已经记录的最长的长度大小，以便判断是否更新最大值
             maxLength = max(maxLength, right - left + 1);
             right++;
         }

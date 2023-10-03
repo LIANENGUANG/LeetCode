@@ -31,6 +31,7 @@ int main09() {
     Solution solution;
 
     int testNumber = 121; // 可以修改为要测试的整数
+    // 布尔值没有办法直接打印，需要通过if (result)的办法来选择性的打印
     bool result = solution.isPalindrome(testNumber);
 
     if (result) {
