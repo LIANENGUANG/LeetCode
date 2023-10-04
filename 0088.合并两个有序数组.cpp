@@ -2,23 +2,21 @@
 // Created by egl1an on 2023/10/4.
 //
 #include "predefs.h"
-
+// 也是过滤器模版，只不过为了原地储存并且利用向量 1 的存储空间我们倒着比较存储大值
+// 这么做的原因是当从两个向量中取值时，有可能出现向量 1 中原来已经有的并且有用的元素被提前的覆盖
 class Solution {
 public:
     void merge(vector<int> &nums1, int m, vector<int> &nums2, int n) {
-        vector<int> result;
-        int i = 0, j = 0;
-        while (i < m || j < n) {
-            // 什么时候要nums1[i]?或者j出界，或者ij都没出界，而此时nums[i]比较小
-            if (j >= n || (i < m && nums1[i] <= nums2[j])) {
-                result.push_back(nums1[i]);
-                i++;
+        int i = m - 1, j = n - 1;
+        for (int k = m + n - 1; k >= 0; k--) {
+            if (j < 0 || (i >= 0 && (nums1[i] > nums2[j]))) {
+                nums1[k] = nums1[i];
+                i--;
             } else {
-                result.push_back(nums2[j]);
-                j++;
+                nums1[k] = nums2[j];
+                j--;
             }
         }
-        for (int i = 0; i < m + n; i++) nums1[i] = result[i];
     }
 };
 
