@@ -11,7 +11,7 @@ public:
     int removeDuplicates(vector<int> &nums) {
         int n = 0;
         for (int i = 0; i < nums.size(); i++) {
-            // 第一个数肯定要，后面的数和前面的不一样的我们也要，确保边界不要超出
+            // 第一个数肯定要，后面的数和前面的不一样的我们也要，确保边界不要超出，并且是原地操作
             if (i == 0 || nums[i] != nums[i - 1]) {
                 nums[n] = nums[i];
                 n++;
@@ -22,7 +22,7 @@ public:
     }
 };
 
-int main(){
+int main26(){
     vector<int> nums = {0,0,1,1,1,2,2,3,3,4};
     Solution sol;
     cout << sol.removeDuplicates(nums);
