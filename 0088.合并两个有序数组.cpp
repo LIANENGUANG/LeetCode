@@ -20,7 +20,7 @@ public:
     }
 };
 
-int main() {
+int main88() {
     vector nums1 = {1, 2, 3, 0, 0, 0};
     int m = 3, n = 3;
     vector nums2 = {2, 5, 6};
