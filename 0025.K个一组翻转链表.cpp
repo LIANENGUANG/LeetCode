@@ -42,7 +42,20 @@ public:
 
         return dummy->next;
     }
+public:
+    ListNode* createList(const std::vector<int>& values) {
+        if (values.empty()) return nullptr;
 
+        ListNode* head = new ListNode(values[0]);
+        ListNode* current = head;
+
+        for (int i = 1; i < values.size(); i++) {
+            current->next = new ListNode(values[i]);
+            current = current->next;
+        }
+
+        return head;
+    }
 private:
     int getLength(ListNode *head) {
         int len = 0;
@@ -73,5 +86,23 @@ private:
         end->next = prev;  // Attach the original tail to the last reversed node
     }
 };
+
+int main25() {
+    Solution solution;
+    std::vector<int> values = {1, 2, 3, 4, 5};
+    ListNode* head = solution.createList(values);
+
+    // For demonstration: reverse every 2 nodes in the linked list.
+    head = solution.reverseKGroup(head, 2);
+
+    // Print the reversed linked list.
+    while (head) {
+        std::cout << head->val << " -> ";
+        head = head->next;
+    }
+    std::cout << "nullptr" << std::endl;
+
+    return 0;
+}
 
 
