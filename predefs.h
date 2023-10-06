@@ -10,5 +10,6 @@ using namespace std;
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <stack>
 
 #endif //LEETCODE_PREDEFS_H
