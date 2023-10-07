@@ -11,5 +11,6 @@ using namespace std;
 #include <map>
 #include <algorithm>
 #include <stack>
+#include <queue>
 
 #endif //LEETCODE_PREDEFS_H

@@ -95,7 +95,7 @@ private:
     }
 };
 
-int main() {
+int main227() {
     string s = "3+2*2";
     Solution sol;
     cout << sol.calculate(s);
