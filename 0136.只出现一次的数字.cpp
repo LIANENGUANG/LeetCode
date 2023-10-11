@@ -66,7 +66,7 @@ public:
     }
 };
 
-int main(){
+int main0136(){
     vector<int> nums = {2,2,1};
     SolutionOne sol;
     cout << sol.singleNumber(nums);
