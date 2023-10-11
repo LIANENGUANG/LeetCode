@@ -12,6 +12,7 @@ public:
             // 自定义index ，要预判其已经被置为负数的元素
             int index = abs(nums[i]) - 1;
             if(nums[index] > 0) nums[index] = - nums[index];
+            // 已经小于 0 ，说明已经出现了一次，又出现了一次
             else result.push_back(index + 1);
         }
         return result;
