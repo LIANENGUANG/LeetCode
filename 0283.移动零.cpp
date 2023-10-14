@@ -1,6 +1,6 @@
 //
 // Created by egl1an on 2023/10/4.
-//
+// 快慢指针法也可以
 // 保序操作题，套用过滤器模版
 #include "predefs.h"
 
