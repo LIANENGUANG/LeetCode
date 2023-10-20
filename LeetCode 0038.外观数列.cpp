@@ -16,7 +16,7 @@ public:
                 char currentChar = result[j];
                 int count = 0;
 
-                // 使用双指针计算连续相同字符的数量
+                // 使用单指针 + 计数器计算连续相同字符的数量
                 while (j < result.size() && result[j] == currentChar) {
                     count++;
                     j++;
