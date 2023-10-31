@@ -14,5 +14,5 @@ using namespace std;
 #include <queue>
 #include <unordered_set>
 #include <set>
-
+#include <numeric>
 #endif //LEETCODE_PREDEFS_H
