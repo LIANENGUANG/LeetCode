@@ -15,4 +15,6 @@ using namespace std;
 #include <unordered_set>
 #include <set>
 #include <numeric>
+#include <sstream>
+#include <stack>
 #endif //LEETCODE_PREDEFS_H
