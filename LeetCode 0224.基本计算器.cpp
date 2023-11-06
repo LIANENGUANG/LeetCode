@@ -3,125 +3,54 @@
 //
 #include "predefs.h"
 
-class Solution {
+class solution {
 public:
-    long long calculate(string s) {
-        // 保证以数字结尾时，那个数字能够正确被放到数组当中，因为下面对数字放到tokens当中时条件是当前不是一个数字字符才push_back进去
-        s += ' ';
-        // 用于放入数字的字符串数组，用于存放整个后缀表达式
-        vector<string> tokens;
-        // 临时提取和保存数字
-        string number = "";
-        // 解决负数问题
-        bool needsZero = true;
-        for (char ch: s) {
-            // 说明某字符是一个数字字符利用ascll码的关系
-            if (ch >= '0' && ch <= '9') {
-                // 字符链接比较 12，,12 是一个数，但是由于是一个一个字符读入的，因此要进行一个字符的拼接
-                number += ch;
-                // 确实是一个数字则直接拼接该数字跳过此轮循环，不会调到下面的运算符相关的操作
-                // 有了数值不需要补 0
-                needsZero = false;
-                continue;
-                // 如果不是一个数字，则将之前存储的数字放到数组当中去
-            } else {
-                if (!number.empty()) {
-                    // 将此数字拼接好的一个数字放到tokens 当中
-                    tokens.push_back(number);
-                    // 清空存储字符的number并且进行下一次字符的存储
-                    number = "";
+    int calculate(string s) {
+        // 数学栈、符号栈
+        stack<int> nums, ops;
+
+        int res = 0;
+        // 当前的符号，1 代表正， -1 代表负
+        int sign = 1;
+        for (int i = 0; i < s.size(); i++) {
+            char c = s[i];
+            if (isdigit(c)) {
+                int num = 0;
+                // 处理数字，数字可能有多位
+                while (i < s.size() && isdigit(s[i])) {
+                    // 这是一个常用的技巧
+                    num = num * 10 + (s[i] - '0');
+                    i++;
                 }
-            }
-            // 进行完一次上述的if-else后进去下面运算符的操作
-            if (ch == ' ') continue;
-            // 遇到左括号直接入栈，不能算，因为还没找到右括号
-            if (ch == '(') {
-                needsZero = true;
-                ops.push(ch);
-                continue;
-            }
-            if (ch == ')') {
-                while (!ops.empty() && ops.top() != '(') {
-                    tokens.push_back(string(1, ops.top()));
-                    ops.pop();
-                }
-                // 把（ 也pop出去
+                // 处理完一个完整的数之后将其加入到结果当中
+                res += sign * num;
+                // 回退一位字符索引，因为for循环还会执行i++
+                // 因为在while循环最后一次不成立之前i++了一次，这里加了本身是不成立的
+                // 因此要回退到上一次，也就是是数字字符那里，然后再for循环那里往下一个索引前进
+                i--;
+            } else if (c == '+') {
+                sign = 1;
+            } else if (c == '-') {
+                sign = -1;
+            } else if (c == '(') {
+                // 遇到左括号，保存当前结果和符号
+                nums.push(res);
+                ops.push(sign);
+                // 重置结果和符号
+                res = 0;
+                sign = 1;
+            } else if (c == ')') {
+                // 遇到右括号，计算括号内得的结果
+                // 栈顶符号是当前的符号
+                res *= ops.top();
+                // 移除栈顶符号
                 ops.pop();
-                continue;
-            }
-            // 需要补 0 则先给tokens数组加一个 0 进去
-            if ((ch == '+' || ch == '-') && needsZero){
-                tokens.push_back("0");
-            }
-            // 得到运算符的优先级当前这个ch的
-            int currRank = getRank(ch);
-            // 如果当前运算符栈顶的运算符优先级大于或者等于当前取到的运算符的优先级，依次比较
-            while (!ops.empty() && getRank(ops.top()) >= currRank) {
-                // 注意此时的ops栈内都是char 而 tokens数组是string 类型
-/*
-// 使用 to_string(ops.top()) 会有问题，
-因为 std::to_string 并不是为单个字符设计的，而是为数字（例如 int, long, float, double 等）设计的。
-*/
-                tokens.push_back(string(1, ops.top())); // 构造了包含一个字符的字符串
-                ops.pop();
-            }
-            // 将那些比当前运算符优先级高的字符均放到表达式当中之后，将当前运算符入栈
-            ops.push(ch);
-            needsZero = true;
-        }
-        // 当所有的字符都处理完后，将运算符栈出栈放到后缀表达式当中
-        while (!ops.empty()) {
-            tokens.push_back(string(1, ops.top()));
-            ops.pop();
-        }
-        return evalRPN(tokens);
-    }
-
-private:
-    // 运算符栈
-    stack<char> ops;
-
-    int getRank(char ch) {
-        if (ch == '+' || ch == '-') return 1;
-        if (ch == '*' || ch == '/') return 2;
-        return 0;
-
-    }
-
-    long long evalRPN(vector<string> &tokens) {
-        for (string &token: tokens) {
-            if (token == "+" || token == "-" || token == "*" || token == "/") {
-                int y = s.top();
-                // 有符号直接出栈
-                s.pop();
-                int x = s.top();
-                s.pop();
-                int z = calc(x, y, token);
-                s.push(z);
-            } else {
-                // 字符转数字，因为此时的token不是符号而是一个数字字符
-                s.push(atoi(token.c_str()));
+                // 添加括号前的计算结果
+                res += nums.top()
+                // 移除已经合并的结果
+                nums.pop();
             }
         }
-        // 最终必然只剩一个数-表达式总是有效的情况下
-        return s.top();
-    }
-
-    stack<int> s;
-
-    int calc(int x, int y, string &token) {
-        if (token == "+") return x + y;
-        if (token == "-") return x - y;
-        if (token == "*") return x * y;
-        if (token == "/") return x / y;
-        return 0;
+        return res;
     }
 };
-/*负数的示例：遇到-或者（先往tokens补一个 0 进去
- *
-表达式 -2 + 3
-在遇到第一个-时，由于之前没有数字，我们可以判定这是一个负数，所以我们在后缀表达式中先添加一个"0"，然后再添加这个负数，得到"0 2 - 3 +"。
-表达式 3 * (-2)
-当我们遇到括号中的-时，我们知道这是一个负数，所以我们再次先添加一个"0"，然后再添加这个负数，得到"3 0 2 - *"。
-表达式 1-( -2)
-与上面的例子类似，当遇到第二个括号中的-时，我们添加一个"0"，然后再添加这个负数，得到"1 0 2 - -"。*/
