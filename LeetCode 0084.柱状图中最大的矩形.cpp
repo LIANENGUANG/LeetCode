@@ -7,32 +7,19 @@
 class Solution {
 public:
     int largestRectangleArea(vector<int> &heights) {
-        int ans = 0;
-        heights.push_back(0);// 保证栈被弹空
-        for (auto height: heights) {
-            int accumulatewidth = 0;
-            // 栈顶（之前）高度>=当前高度，单调性破坏，确定了栈顶高度的扩展范围，删除栈顶元素
-            while (!s.empty()&&s.top().height >= height) {
-                accumulatewidth += s.top().width;
-                ans = max(ans, s.top().height * accumulatewidth);
-                s.pop();
-            }
-            // 推入的是重新构成的小矩形
-            s.push({accumulatewidth + 1, height});
-        }
-        return ans;
+      int maxArea = 0;
+      stack<int> indexStack; // 栈用于存储柱子的索引
+      heights.push_back(0);// 在最后添加一个高度为 0 的柱子以清空栈
+      for(int i = 0; i < heights.size();++i){
+          while(!indexStack.empty() && heights[i] < heights[indexStack.top()]){
+              int height = heights[indexStack.top()];
+              indexStack.pop();
+              int width = indexStack.empty() ? i : (i - indexStack.top() - 1);
+              maxArea = max(maxArea,height * width);
+          }
+          indexStack.push(i);
+      }
+        return maxArea;
     }
-
-private:
-    struct Rect {
-        int width;
-        int height;
-    };
-    stack<Rect> s;
 };
 
-int main0084(){
-    vector<int> heights = {2,1,5,6,2,3};
-    Solution sol;
-    cout << sol.largestRectangleArea(heights);
-}
