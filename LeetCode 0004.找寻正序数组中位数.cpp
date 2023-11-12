@@ -1,46 +1,35 @@
-#include <iostream>
-#include <vector>
+#include "predefs.h"
 
-using namespace std;
 
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int m = nums1.size();
-        int n = nums2.size();
+        // 创建一个最小堆
+        priority_queue<int, vector<int>, greater<int>> minHeap;
 
-        int low = 0, high = m;
-
-        while(low <= high) {
-           // 1. 二分查找划分 nums1
-           int i = (low + high) / 2;
-           int j = (m + n + 1) / 2 - i;
-
-           // 2. 获取分割子数组最大和最小值
-           // 判断当前子数组是否只有一个元素
-           int maxLeft1 = (i == 0) ? INT_MIN : nums1[i-1];
-           int minRight1 = (i == m) ? INT_MAX : nums1[i];
-
-           int maxLeft2 = (j == 0) ? INT_MIN : nums2[j-1];
-           int minRight2 = (j == n) ? INT_MAX : nums2[j];
-
-           // 3. 判断是否符合要求
-           if(maxLeft1 <= minRight2 && maxLeft2 <= minRight1) {
-               // 4. 计算中位数
-               if( (m + n) % 2 == 0 ) {
-                   return (max(maxLeft1, maxLeft2) + min(minRight1, minRight2)) / 2.0;
-               } else {
-                   return max(maxLeft1, maxLeft2);
-               }
-           }
-           else if(maxLeft1 > minRight2) {
-               high = i - 1;
-           }
-           else {
-               low = i + 1;
-           }
+        // 将两个数组的所有元素都放入堆中
+        for (int num : nums1) {
+            minHeap.push(num);
+        }
+        for (int num : nums2) {
+            minHeap.push(num);
         }
 
-        return 0.0;
+        // 弹出堆顶元素直到找到中位数
+        int size = nums1.size() + nums2.size();
+        int median1 = 0, median2 = 0;
+        for (int i = 0; i <= size / 2; i++) {
+            if (i == size / 2 - 1) {
+                median1 = minHeap.top();
+            }
+            if (i == size / 2) {
+                median2 = minHeap.top();
+            }
+            minHeap.pop();
+        }
+
+        // 如果总元素数量是奇数，则中位数是堆顶元素
+        // 如果总元素数量是偶数，则中位数是最后两个弹出的元素的平均值
+        return (size % 2 == 0) ? (median1 + median2) / 2.0 : median2;
     }
 };
